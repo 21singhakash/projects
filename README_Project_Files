@@ -1,6 +1,0 @@
-Project 1 : Word Blends
-Description: The goal of this project is to develop and critically assess methods for detecting word blends
-among frequent terms in Twitter data.
-Files: JaroDis.java, WordRead.java
-Project 2 : Geolocation of tweeter
-Description: The objective of this project is to build a geolocation classifier for Tweets, i.e to classify tweeter's location.
