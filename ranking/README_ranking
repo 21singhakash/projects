@@ -1,10 +1,11 @@
 This Python project is built in order to provide rank(or credit) to user's on stackoverflow site based on their profile reputation.
 The application fetches the user's reputataion from their profile page and provide ranking on the basis of it.
-There are 3 files related to this project 1. app.py, 2. rank_file.py, 3. sorting.py .
-app.py file is responsible for fetching the values (reputation)for the passed(CLI argument).
-rank_file.py is responsible ranking the user's profile on the basis of it's reputation score variable.
-sorting.py contains sorting logic.
+There are 3 files related to this project 1. app.py, 2. rank_file.py, 3. main.py .
+app.py file is responsible for fetching the values (reputation)for the passed(CLI argument) url of the stackoverflow user's profile.
+rank_file.py is responsible ranking the user's profile on the basis of it's reputation score variable, and 
+creating a log.csv file to store the results.
+main.py call's the app.py file to start the functionality.
 
 In order to run the progam use below command from python terminal:
-python app.py 'url'
+python main.py <url>
 where 'url' - is the user's stackoverflow profile url.
