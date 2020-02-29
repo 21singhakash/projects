@@ -1,45 +1,40 @@
-import os.path
+#@akash_singh
+#The rank_func is responsible for assigning the rank to the stackoverflow user profile
+#based on their reputation value.
+#This method creates a 'log.csv' file to store the results and also updates their rank is their reputation changes.
+
 from os import path
-# import re
-import sorting
-import csv
 import pandas as pd
 
-def rank_fun(rep, url):
-    if path.exists('rank_file.txt'):
-        f = open('rank_file.txt', 'r')
-        fl = f.readlines()
-        f.close()
-        new_line1 = "%s " % rep + " %s \n" % url
-        flset = list(set(fl))
-        if new_line1 not in flset:
-            f = open("rank_file.txt", "a")
-            f.write(new_line1)
-        f.close()
+def rank_func(rep, url):
+    if path.exists('log.csv'):
+        df = pd.read_csv('log.csv')
+        # checking if the entry of the user is already in log.csv file.
+        if (url == df['url']).any():
+            # checking for any change is user's 'stackoverflow' reputation.
+            if ((df['url'] == url) & (df['rep'] != rep)).any():
+                mask = (df['url'] == url) & (df['rep'] != rep)
+                df['rep'][mask] = rep
+                df['rep'] = df.rep.astype(int)
+                df['Rank'] = df['rep'].rank(ascending=False)
+                df.sort_values('Rank', inplace=True)
+                df.to_csv('log.csv', index=False)
+        #if user don't exit then add and update log.csv file withh new updated ranking
+        else:
+            new_rank = df['Rank'].max() + 1
+            data = {'url': [url],
+                    'rep': [rep],
+                    'Rank': [new_rank]}
+            df1 = pd.DataFrame(data)
+            df2 = df.append(df1, ignore_index=True)
+            df2['rep'] = df2.rep.astype(int)
+            df2['Rank'] = df2['rep'].rank(ascending=False)
+            df2.sort_values('Rank', inplace=True)
+            df2.to_csv('log.csv', index=False)
+    #if the log.csv doen't exit then create the file, and make user's entry in it.
     else:
-        fo = open('rank_file.txt', 'w+')
-        fo.write("%s " % rep + " %s \n" % url)
-        fo.close()
-    with open('rank_file.txt', 'r') as f1:
-        content = f1.readlines()
-        content.sort(key=sorting.nat_keys, reverse=True)
-
-    with open('rank_file.txt', 'w') as f2:
-        for l1 in content:
-            f2.write('%s\n' % l1)
-
-
-    with open('rank_file.txt', 'r') as in_file:
-        stripped = (line.strip() for line in in_file)
-        lines = (line.split(",") for line in stripped if line)
-        with open('log.csv', 'w+') as out_file:
-            writer = csv.writer(out_file)
-            writer.writerow(('rep', 'url'))
-            writer.writerows(lines)
-
-    data = pd.read_csv("log.csv")
-    data["Rank"] = data["rep"].rank(ascending=0)
-    data.sort_values("rep", inplace=True)
-    print(data)
+        df = pd.DataFrame({'url': [url], 'rep': [rep]})
+        df['Rank'] = df['rep'].rank(ascending=1)
+        df.to_csv('log.csv', index=False)
 
 
