@@ -1,1 +1,1 @@
-This is Project directory.
+This is Python project directory.
