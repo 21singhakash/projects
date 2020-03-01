@@ -26,11 +26,11 @@ def rank_func(rep, url):
                     'rep': [rep],
                     'Rank': [new_rank]}
             df1 = pd.DataFrame(data)
-            df2 = df.append(df1, ignore_index=True)
-            df2['rep'] = df2.rep.astype(int)
-            df2['Rank'] = df2['rep'].rank(ascending=False)
-            df2.sort_values('Rank', inplace=True)
-            df2.to_csv('log.csv', index=False)
+            df = df.append(df1, ignore_index=True)
+            df['rep'] = df.rep.astype(int)
+            df['Rank'] = df['rep'].rank(ascending=False)
+            df.sort_values('Rank', inplace=True)
+            df.to_csv('log.csv', index=False)
     #if the log.csv doen't exit then create the file, and make user's entry in it.
     else:
         df = pd.DataFrame({'url': [url], 'rep': [rep]})
