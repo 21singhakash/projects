@@ -1,7 +1,7 @@
 #@akash_singh
 #The rank_func is responsible for assigning the rank to the stackoverflow user profile
 #based on their reputation value.
-#This method creates a 'log.csv' file to store the results and also updates their rank is their reputation changes.
+#This method creates a 'log.csv' file to store the results and also updates their rank if their reputation changes.
 
 from os import path
 import pandas as pd
@@ -19,7 +19,7 @@ def rank_func(rep, url):
                 df['Rank'] = df['rep'].rank(ascending=False)
                 df.sort_values('Rank', inplace=True)
                 df.to_csv('log.csv', index=False)
-        #if user don't exit then add and update log.csv file withh new updated ranking
+        #if user don't exit then add and update log.csv file with the new updated rankings.
         else:
             new_rank = df['Rank'].max() + 1
             data = {'url': [url],
